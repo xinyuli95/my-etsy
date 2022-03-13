@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Login from './Login/Login';
+import Signup from './Signup/Signup';
 import Home from './Home/Home';
 import Delete from './Delete/Delete';
 import Create from './Create/Create';
@@ -16,6 +17,7 @@ class Main extends Component {
                 <Route path="/home" component={Home}/>
                 <Route path="/delete" component={Delete}/>
                 <Route path="/create" component={Create}/>
+                <Route path="/signup" component={Signup}/>
             </div>
         )
     }

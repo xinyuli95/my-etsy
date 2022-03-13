@@ -54,8 +54,9 @@ class Login extends Component{
         //make a post request with the user data
         axios.post('http://localhost:3001/login',data)
             .then(response => {
+                console.log("data : ",response.data);
                 console.log("Status Code : ",response.status);
-                if(response.status === 200){
+                if(response.data === "Successful Login"){
                     this.setState({
                         authFlag : true
                     })
@@ -70,7 +71,7 @@ class Login extends Component{
                 console.log(error);
                 this.setState({
                     authFlag : false,
-                    errorMsg : "Login failed. Invalid credentials"
+                    errorMsg : "Network Error"
                 })
             });
     }

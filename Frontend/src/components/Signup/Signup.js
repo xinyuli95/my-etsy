@@ -72,7 +72,7 @@ class Signup extends Component{
                 }else{
                     this.setState({
                         signupFlag : false,
-                        errorMsg : "User already exists"
+                        errorMsg : response.data
                     })
                 }
             })
@@ -89,7 +89,7 @@ class Signup extends Component{
         //redirect based on successful login
         let redirectVar = null;
         if (this.state.signupFlag) {
-            redirectVar = <Redirect to= "/login"/>
+            redirectVar = <Redirect to= "/"/>
         }
 
         return(
@@ -103,17 +103,19 @@ class Signup extends Component{
                             <h2>User Signup</h2>
                             <p>Please enter your username and password</p>
                         </div>
-                            <p style={{color: 'red'}}>{this.state.errorMsg}</p>
-                            <div class="form-group">
-                                <input onChange = {this.usernameChangeHandler} type="text" class="form-control" name="username" placeholder="Username"/>
-                            </div>
-                            <div class="form-group">
-                                <input onChange = {this.emailChangeHandler} type="email" class="form-control" name="email" placeholder="Email"/>
-                            </div>
-                            <div class="form-group">
-                                <input onChange = {this.passwordChangeHandler} type="password" class="form-control" name="password" placeholder="Password"/>
-                            </div>
-                            <button onClick = {this.submitSignup} class="btn btn-primary">Sign Up</button>                 
+                            <form action="http://127.0.0.1:3000/signup" method="post">
+                                <p style={{color: 'red'}}>{this.state.errorMsg}</p>
+                                <div class="form-group">
+                                    <input onChange = {this.usernameChangeHandler} type="text" class="form-control" name="username" placeholder="Username"/>
+                                </div>
+                                <div class="form-group">
+                                    <input onChange = {this.emailChangeHandler} type="email" class="form-control" name="email" placeholder="Email"/>
+                                </div>
+                                <div class="form-group">
+                                    <input onChange = {this.passwordChangeHandler} type="password" class="form-control" name="password" placeholder="Password"/>
+                                </div>
+                                <button onClick = {this.submitSignup} class="btn btn-primary">Sign Up</button>
+                            </form>                
                     </div>
                 </div>
             </div>
