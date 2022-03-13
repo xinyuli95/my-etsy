@@ -32,17 +32,17 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
     res.setHeader('Cache-Control', 'no-cache');
     next();
-  });
+    // res.end();
+});
 
-  var Users = [{
-      username : "admin",
-      password : "admin"
-  }]
+var Users = [
+    { username : "admin", password : "admin", email : "admin@gmail.com"},
+]
 
-  var books = [
-    {"BookID" : "1", "Title" : "Book 1", "Author" : "Author 1"},
-    {"BookID" : "2", "Title" : "Book 2", "Author" : "Author 2"},
-    {"BookID" : "3", "Title" : "Book 3", "Author" : "Author 3"}
+var books = [
+  {"BookID" : "1", "Title" : "Book 1", "Author" : "Author 1"},
+  {"BookID" : "2", "Title" : "Book 2", "Author" : "Author 2"},
+  {"BookID" : "3", "Title" : "Book 3", "Author" : "Author 3"}
 ]
 
 
@@ -69,24 +69,62 @@ app.post('/login',function(req,res){
     console.log("Inside Login Post Request");
     //console.log("Req Body : ", username + "password : ",password);
     console.log("Req Body : ",req.body);
-    Users.filter(function(user){
-        if(user.username === req.body.username && user.password === req.body.password){
-            res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
-            req.session.user = user;
-            res.writeHead(200,{
-                'Content-Type' : 'text/plain'
-            });
-            res.end("Successful Login")
-        } else {
-            res.writeHead(500,{
-                'Content-Type' : 'text/plain'
-            });
-            res.end("Failed Login")
-        }
-        
-    })
-
+    console.log("Users: ",Users);
     
+    const result = Users.filter((user) => {
+        return user.username === req.body.username && user.password === req.body.password;    
+    });
+
+    // No user found
+    if( result.length === 0 ){
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        });
+        res.end("Failed Login");
+    }else{
+        res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+        req.session.user = result[0];
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        });
+        res.end("Successful Login");
+    };
+
+});
+
+app.post('/signup', function (req, res) {
+    console.log("Req Body : ", req.body);
+    // Check if Book ID is not duplicate
+    const i = Users.findIndex( user => {
+        return user.username === req.body.username;
+    });
+
+    const j = Users.findIndex( user => {
+        return user.email === req.body.email;
+    });
+
+    if( i !== -1 ){
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        });
+        res.end("Username already exists");
+    } else if( j !== -1 ){
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        });
+        res.end("Email already exists");
+    } else {
+        const user = { username: req.body.username, password: req.body.password, email: req.body.email };
+        Users.push(user);
+        //res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+        //req.session.user = user;
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        });
+        res.end("User creation successful");
+    }       
+    
+
 });
 
 app.post('/create', function (req, res) {
