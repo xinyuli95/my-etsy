@@ -89,7 +89,7 @@ class Signup extends Component{
         //redirect based on successful login
         let redirectVar = null;
         if (this.state.signupFlag) {
-            redirectVar = <Redirect to= "/"/>
+            redirectVar = <Redirect to= "/login"/>
         }
 
         return(
