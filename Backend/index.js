@@ -39,22 +39,22 @@ var Users = [
     { username : "admin", password : "admin", email : "admin@gmail.com"},
 ]
 
-var books = [
-  {"BookID" : "1", "Title" : "Book 1", "Author" : "Author 1"},
-  {"BookID" : "2", "Title" : "Book 2", "Author" : "Author 2"},
-  {"BookID" : "3", "Title" : "Book 3", "Author" : "Author 3"}
+var items = [
+  {"itemID" : "1", "Title" : "item 1", "price" : 1.5},
+  {"itemID" : "2", "Title" : "item 2", "price" : 2.5},
+  {"itemID" : "3", "Title" : "item 3", "price" : 3.5}
 ]
 
 
 
-//Route to get All Books when user visits the Home Page
+//Route to get All items when user visits the Home Page
 app.get('/home', function(req,res){
     console.log("Inside Home Login");    
     res.writeHead(200,{
         'Content-Type' : 'application/json'
     });
-    console.log("Books : ",JSON.stringify(books));
-    res.end(JSON.stringify(books));
+    console.log("items : ",JSON.stringify(items));
+    res.end(JSON.stringify(items));
     
 })
 
@@ -94,7 +94,7 @@ app.post('/login',function(req,res){
 
 app.post('/signup', function (req, res) {
     console.log("Req Body : ", req.body);
-    // Check if Book ID is not duplicate
+    // Check if item ID is not duplicate
     const i = Users.findIndex( user => {
         return user.username === req.body.username;
     });
@@ -132,22 +132,22 @@ app.post('/create', function (req, res) {
         res.redirect('/');
     } else {
         console.log("Req Body : ", req.body);
-        // Check if Book ID is not duplicate
-        const i = books.findIndex( book => {
-            return book.BookID === req.body.id;
+        // Check if item ID is not duplicate
+        const i = items.findIndex( item => {
+            return item.itemID === req.body.id;
         });
 
         if( i !== -1 ){
             res.writeHead(200,{
                 'Content-Type' : 'text/plain'
             });
-            res.end("Duplicate book id")
+            res.end("Duplicate item id")
         } else {
-            books.push({ "BookID": req.body.id, "Title": req.body.title, "Author": req.body.author })
+            items.push({ "itemID": req.body.id, "Title": req.body.title, "price": req.body.price })
             res.writeHead(200,{
                 'Content-Type' : 'text/plain'
             });
-            res.end("Book creation successful")
+            res.end("item creation successful")
         }       
     }
 
@@ -158,21 +158,21 @@ app.post('/delete', function (req, res) {
         res.redirect('/');
     } else {
         console.log("Req Body : ", req.body);
-        const i = books.findIndex( book => {
-            return book.BookID === req.body.id;
+        const i = items.findIndex( item => {
+            return item.itemID === req.body.id;
         });
           
         if( i !== -1 ){
-            books.splice(i, 1);
+            items.splice(i, 1);
             res.writeHead(200,{
                 'Content-Type' : 'text/plain'
             });
-            res.end("Book deletion successful")
+            res.end("item deletion successful")
         } else {
             res.writeHead(200,{
                 'Content-Type' : 'text/plain'
             });
-            res.end("Book not found")
+            res.end("item not found")
         }
         
     }

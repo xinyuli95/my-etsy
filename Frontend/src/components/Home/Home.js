@@ -8,29 +8,39 @@ class Home extends Component {
     constructor(){
         super();
         this.state = {  
-            books : []
+            items : []
         }
-    }  
-    //get the books data from backend  
+     
+
+        this.addFavorite = this.addFavorite.bind(this);
+    } 
+
+    addFavorite = (e) => {
+        console.log(e.target.value)
+    }
+
+    //get the items data from backend  
     componentDidMount(){
         axios.get('http://localhost:3001/home')
                 .then((response) => {
                 //update the state with the response data
                 this.setState({
-                    books : this.state.books.concat(response.data) 
+                    items : this.state.items.concat(response.data) 
                 });
             });
     }
 
     render(){
-        //iterate over books to create a table row
-        let details = this.state.books.map(book => {
+        //iterate over items to create a table row
+        let details = this.state.items.map(item => {
             return(
-                <tr>
-                    <td>{book.BookID}</td>
-                    <td>{book.Title}</td>
-                    <td>{book.Author}</td>
-                </tr>
+                <div class="col">
+                    <div class="item">
+                        <div class="name"> {item.itemID} </div>
+                        <div class="price"> {item.price} </div>     
+                        <button value={item.itemID} onClick = {this.addFavorite} class="btn btn-primary">Favorite</button>                 
+                    </div>   
+                </div>
             )
         })
         //if not logged in go to login page
@@ -42,20 +52,10 @@ class Home extends Component {
             <div>
                 {redirectVar}
                 <div class="container">
-                    <h2>List of All Books</h2>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Book ID</th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {/*Display the Tbale row based on data recieved*/}
-                                {details}
-                            </tbody>
-                        </table>
+                    <h2>List of All items</h2>
+                        <div class="row">
+                            { details }
+                        </div>                
                 </div> 
             </div> 
         )
