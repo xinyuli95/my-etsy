@@ -98,7 +98,7 @@ app.post('/login',function(req,res){
         });
         res.end("Failed Login");
     }else{
-        res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+        res.cookie('cookie',result[0].username,{maxAge: 900000, httpOnly: false, path : '/'});
         req.session.user = result[0];
         res.writeHead(200,{
             'Content-Type' : 'text/plain'
