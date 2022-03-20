@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
+import {Navigate} from 'react-router';
 
 //create the Navbar Component
 class Navbar extends Component {
@@ -11,13 +11,20 @@ class Navbar extends Component {
         //maintain the state required for this component
         this.state = {
             keyword: "",
-            errorMsg: ""
+            searchFlag: false
         }
 
         this.handleLogout = this.handleLogout.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.submitSearch = this.submitSearch.bind(this);
     }
+
+    componentWillMount(){
+        this.setState({
+            searchFlag : false
+        })
+    }
+
     //handle logout to destroy the cookie
     handleLogout = () => {
         cookie.remove('cookie', { path: '/' })
@@ -28,8 +35,11 @@ class Navbar extends Component {
         })
     }
 
-    submitSearch = (e) => {
-        console.log(this.state.keyword);
+    submitSearch = () => {
+        e.preventDefault();
+        this.setState({
+            searchFlag: true
+        })
     }
 
     render(){
@@ -52,9 +62,11 @@ class Navbar extends Component {
             )
         }
         let redirectVar = null;
-        if(cookie.load('cookie')){
-            redirectVar = <Redirect to="/home"/>
+        if (this.state.searchFlag){
+            let url = "/search/"+this.state.keyword;
+            redirectVar = <Navigate to= {url}/>
         }
+
         return(
             <div>
                 {redirectVar}
@@ -67,7 +79,7 @@ class Navbar extends Component {
                         <ul class="nav navbar-nav">
                             <li class="active"><Link to="/home">Home</Link></li>
                             <li><Link to="/create">Favorites</Link></li>
-                            <li><Link to="/delete">User</Link></li>
+                            <li><Link to="/user">User</Link></li>
                             <li><Link to="/delete">Cart</Link></li>
                             <li><Link to="/signup">Sign Up</Link></li>
                         </ul>

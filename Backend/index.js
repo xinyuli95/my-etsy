@@ -58,6 +58,22 @@ app.get('/home', function(req,res){
     
 })
 
+app.post('/search', function(req,res){
+    const keyword = req.body.keyword;
+    console.log("req: ", keyword)
+    const results = items.filter((item) => {
+        return item.Title.includes(keyword);    
+    });
+    console.log(results);
+
+    res.writeHead(200,{
+        'Content-Type' : 'application/json'
+    });
+
+    res.end(JSON.stringify(results));
+    
+})
+
 //Route to handle Post Request Call
 app.post('/login',function(req,res){
     

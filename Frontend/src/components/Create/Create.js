@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import '../../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
+import {Navigate} from 'react-router-dom';
+import Navbar from '../LandingPage/Navbar';
 
 class Create extends Component{
     //call the constructor method
@@ -90,15 +91,16 @@ class Create extends Component{
         //if not logged in go to login page
         let redirectVar = null;
         if(!cookie.load('cookie')){
-            redirectVar = <Redirect to= "/login"/>
+            redirectVar = <Navigate to= "/login"/>
         } else if (this.state.addFlag) {
-            redirectVar = <Redirect to= "/home"/>
+            redirectVar = <Navigate to= "/home"/>
         }
 
         return(
             <div>
                 {redirectVar}
                 <br/>
+                <div><Navbar/></div>
                 <div class="container">
                     <form action="http://127.0.0.1:3000/create" method="post">
                         <p style={{color: 'red'}}>{this.state.errorMsg}</p>

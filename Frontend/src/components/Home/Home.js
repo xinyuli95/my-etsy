@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import '../../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
+import {Navigate} from 'react-router';
+import Navbar from '../LandingPage/Navbar';
 
 class Home extends Component {
     constructor(){
@@ -46,11 +47,12 @@ class Home extends Component {
         //if not logged in go to login page
         let redirectVar = null;
         if(!cookie.load('cookie')){
-            redirectVar = <Redirect to= "/login"/>
+            redirectVar = <Navigate to= "/login"/>
         }
         return(
             <div>
                 {redirectVar}
+                <div><Navbar/></div>
                 <div class="container">
                     <h2>List of All items</h2>
                         <div class="row">

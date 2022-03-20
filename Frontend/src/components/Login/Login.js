@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import '../../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
+import {Navigate} from 'react-router';
+import Navbar from '../LandingPage/Navbar';
 
 //Define a Login Component
 class Login extends Component{
@@ -80,12 +81,13 @@ class Login extends Component{
         //redirect based on successful login
         let redirectVar = null;
         if(cookie.load('cookie')){
-            redirectVar = <Redirect to= "/home"/>
+            redirectVar = <Navigate to= "/home"/>
         }
 
         return(
             <div>
                 {redirectVar}
+            <div><Navbar/></div>    
             <div class="container">
                 
                 <div class="login-form">

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import '../../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
+import {Navigate} from 'react-router';
+import Navbar from '../LandingPage/Navbar';
 
 //Define a Signup Component
 class Signup extends Component{
@@ -89,12 +90,13 @@ class Signup extends Component{
         //redirect based on successful login
         let redirectVar = null;
         if (this.state.signupFlag) {
-            redirectVar = <Redirect to= "/login"/>
+            redirectVar = <Navigate to= "/login"/>
         }
 
         return(
             <div>
                 {redirectVar}
+                <div><Navbar/></div>
             <div class="container">
                 
                 <div class="login-form">

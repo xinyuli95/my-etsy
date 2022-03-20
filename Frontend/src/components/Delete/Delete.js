@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import '../../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
+import {Navigate} from 'react-router';
+import Navbar from '../LandingPage/Navbar';
 
 class Delete extends Component{
     //call the constructor method
@@ -71,14 +72,15 @@ class Delete extends Component{
         //if not logged in go to login page
         let redirectVar = null;
         if(!cookie.load('cookie')){
-            redirectVar = <Redirect to= "/login"/>
+            redirectVar = <Navigate to= "/login"/>
         } else if (this.state.deleteFlag) {
-            redirectVar = <Redirect to= "/home"/>
+            redirectVar = <Navigate to= "/home"/>
         }
 
         return(
             <div class="container">
                 {redirectVar}
+                <div><Navbar/></div>
                 <form>
                     <p style={{color: 'red'}}>{this.state.errorMsg}</p>
                     <div style={{width: "50%",float: "left"}} class="form-group">

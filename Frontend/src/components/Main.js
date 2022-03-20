@@ -1,23 +1,31 @@
 import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Routes, Route, Switch} from 'react-router-dom';
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
 import Home from './Home/Home';
 import Delete from './Delete/Delete';
 import Create from './Create/Create';
 import Navbar from './LandingPage/Navbar';
+import Search from './Search/Search';
+import User from './User/User';
+
 //Create a Main Component
 class Main extends Component {
     render(){
         return(
             <div>
-                {/*Render Different Component based on Route*/}
-                <Route path="/" component={Navbar}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/home" component={Home}/>
-                <Route path="/delete" component={Delete}/>
-                <Route path="/create" component={Create}/>
-                <Route path="/signup" component={Signup}/>
+                <Routes>
+                    {/*Render Different Component based on Route*/}
+                    <Route path="/" element={<Navbar />}/>
+                    <Route path="/login" element={<Login />}/>
+                    <Route path="/home" element={<Home />}/>
+                    <Route path="/delete" element={<Delete />}/>
+                    <Route path="/create" element={<Create />}/>
+                    <Route path="/signup" element={<Signup />}/>
+                    <Route path="/search/:id" element={<Search />}/>
+                    <Route path="/user" element={<User />}/>
+                </Routes>
+                
             </div>
         )
     }
