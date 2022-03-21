@@ -149,21 +149,23 @@ app.post('/create', function (req, res) {
     } else {
         console.log("Req Body : ", req.body);
         // Check if item ID is not duplicate
-        const i = items.findIndex( item => {
-            return item.itemID === req.body.id;
+        const i = shops.findIndex( shop => {
+            return shop.owner === req.body.owner;
         });
 
         if( i !== -1 ){
+            console.log(i);
             res.writeHead(200,{
                 'Content-Type' : 'text/plain'
             });
-            res.end("Duplicate item id")
+            res.end("Duplicate shop id")
         } else {
-            items.push({ "itemID": req.body.id, "Title": req.body.title, "price": req.body.price })
+            console.log(i);
+            shops.push({"shopID": req.body.shopID, "owner": req.body.owner, "items": []})
             res.writeHead(200,{
                 'Content-Type' : 'text/plain'
             });
-            res.end("item creation successful")
+            res.end("Shop creation successful")
         }       
     }
 
@@ -224,15 +226,22 @@ app.post('/shop', function (req, res) {
         res.redirect('/');
     } else {
         console.log("Req name: ", req.body.name);
-        const results = shops.filter((shop) => {
-            return shop.owner === req.body.name;    
+        const i = shops.findIndex( shop => {
+            return shop.owner === req.body.name;
         });
-        console.log(results[0]);  
-        res.writeHead(200,{
-            'Content-Type' : 'text/plain'
-        });
-
-        res.end(JSON.stringify(results[0]));    
+          
+        if( i !== -1 ){
+            res.writeHead(200,{
+                'Content-Type' : 'application/json'
+            });
+            console.log(shops[i])
+            res.end(JSON.stringify(shops[i]));
+        } else {
+            res.writeHead(200,{
+                'Content-Type' : 'text/plain'
+            });
+            res.end("Shop not found")
+        }
     }
 })
 

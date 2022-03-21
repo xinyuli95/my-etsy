@@ -12,7 +12,8 @@ class Shop extends Component {
         this.state = {  
             items: [],
             shop: "",
-            name: ""
+            name: "",
+            haveShop: true
         }
      
 
@@ -24,35 +25,47 @@ class Shop extends Component {
     }
 
     componentWillMount(){
-        if(!cookie.load('cookie')){
+        const name = cookie.load('cookie')
+        if(!name){
             this.setState({
                 name : ''
             })
         } else {
             this.setState({
-                name : cookie.load('cookie')
+                name : name
             })
         }
 
-    }
-
-    //get the items data from backend  
-    componentDidMount(){
         const data = {
-            name: this.state.name
+            name: name
         }
 
         axios.post('http://localhost:3001/shop', data)
                 .then((response) => {
-                //update the state with the response data
-                this.setState({
-                    items : this.state.items.concat(response.data.items) 
+                    console.log(response.data);
+                    if (response.data === "Shop not found") {
+                        this.setState({
+                            haveShop: false 
+                        });
+                    }else {
+                        //update the state with the response data
+                        this.setState({
+                            items : this.state.items.concat(response.data.items) 
+                        });
+                        this.setState({
+                            shop : response.data.shopID 
+                        });
+                        console.log("shop: ", this.state.shop)
+                    }
+                
                 });
-                this.setState({
-                    shop : response.data.shopID 
-                });
-            });
+
     }
+
+    //get the items data from backend  
+    //componentDidMount(){
+       
+    //}
 
     render(){
         //iterate over items to create a table row
@@ -71,7 +84,9 @@ class Shop extends Component {
 
         if(!cookie.load('cookie')){
             redirectVar = <Navigate to= "/login"/>
-        } 
+        } else if (!this.state.haveShop) {
+            redirectVar = <Navigate to= "/create"/>
+        }
 
         return(
             <div>

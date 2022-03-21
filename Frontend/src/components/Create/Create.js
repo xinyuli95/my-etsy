@@ -12,20 +12,27 @@ class Create extends Component{
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : 0,
-            title : "",
-            author : "",
+            shopID : "",
+            owner : "",
             errorMsg: "",
             addFlag: false
         }
         //Bind the handlers to this class
         this.idChangeHandler = this.idChangeHandler.bind(this);
-        this.titleChangeHandler = this.titleChangeHandler.bind(this);
-        this.authorChangeHandler = this.authorChangeHandler.bind(this);
         this.submitCreate = this.submitCreate.bind(this);
     }
     //Call the Will Mount to empty the error message
     componentWillMount(){
+        const name = cookie.load('cookie')
+        if(!name){
+            this.setState({
+                owner : ''
+            })
+        } else {
+            this.setState({
+                owner : name
+            })
+        }
         this.setState({
             addFlag: false
         })
@@ -33,20 +40,7 @@ class Create extends Component{
     //Book ID change handler to update state variable with the text entered by the user
     idChangeHandler = (e) => {
         this.setState({
-            id : e.target.value
-        })
-    }
-    //Title change handler to update state variable with the text entered by the user
-    titleChangeHandler = (e) => {
-        this.setState({
-            title : e.target.value
-        })
-    }
-
-    //Author change handler to update state variable with the text entered by the user
-    authorChangeHandler = (e) => {
-        this.setState({
-            author : e.target.value
+            shopID : e.target.value
         })
     }
 
@@ -56,9 +50,8 @@ class Create extends Component{
         //prevent page from refresh
         e.preventDefault();
         const data = {
-            id : this.state.id,
-            title : this.state.title,
-            author : this.state.author
+            shopID : this.state.shopID,
+            owner : this.state.owner
         }
 
         //set the with credentials to true
@@ -67,14 +60,14 @@ class Create extends Component{
         axios.post('http://localhost:3001/create',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
-                if(response.data === "Book creation successful"){
+                if(response.data === "Shop creation successful"){
                     this.setState({
                         addFlag : true
                     })
                 }else{
                     this.setState({
                         addFlag : false,
-                        errorMsg : "Duplicate book id. Creation failed"
+                        errorMsg : "Duplicate shop. Creation failed"
                     })
                 }
             })
@@ -93,7 +86,7 @@ class Create extends Component{
         if(!cookie.load('cookie')){
             redirectVar = <Navigate to= "/login"/>
         } else if (this.state.addFlag) {
-            redirectVar = <Navigate to= "/home"/>
+            redirectVar = <Navigate to= "/shop"/>
         }
 
         return(
@@ -103,17 +96,10 @@ class Create extends Component{
                 <div><Navbar/></div>
                 <div class="container">
                     <form action="http://127.0.0.1:3000/create" method="post">
+                        <h2>{  this.state.owner }</h2>
                         <p style={{color: 'red'}}>{this.state.errorMsg}</p>
                         <div style={{width: '30%'}} class="form-group">
-                            <input onChange = {this.idChangeHandler} type="number" class="form-control" name="BookID" placeholder="Book ID" min="1" required/>
-                        </div>
-                        <br/>
-                        <div style={{width: '30%'}} class="form-group">
-                                <input onChange = {this.titleChangeHandler} type="text" class="form-control" name="Title" placeholder="Book Title" maxLength="30" required/>
-                        </div>
-                        <br/>
-                        <div style={{width: '30%'}} class="form-group">
-                                <input onChange = {this.authorChangeHandler} type="text" class="form-control" name="Author" placeholder="Book Author" maxLength="30" required/>
+                            <input onChange = {this.idChangeHandler} type="text" class="form-control" name="shopID" placeholder="Shop ID" required/>
                         </div>
                         <br/>
                         <div style={{width: '30%'}}>

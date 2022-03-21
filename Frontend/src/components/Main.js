@@ -27,6 +27,7 @@ class Main extends Component {
                     <Route path="/search/:id" element={<Search />}/>
                     <Route path="/user" element={<User />}/>
                     <Route path="/edit-user" element={<UserEdit />}/>
+                    <Route path="/create" element={<Create />}/>
                 </Routes>
                 
             </div>
