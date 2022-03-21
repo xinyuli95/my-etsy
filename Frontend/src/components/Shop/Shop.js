@@ -10,7 +10,9 @@ class Shop extends Component {
     constructor(){
         super();
         this.state = {  
-            items : []
+            items: [],
+            shop: "",
+            name: ""
         }
      
 
@@ -21,13 +23,33 @@ class Shop extends Component {
         console.log(e.target.value)
     }
 
+    componentWillMount(){
+        if(!cookie.load('cookie')){
+            this.setState({
+                name : ''
+            })
+        } else {
+            this.setState({
+                name : cookie.load('cookie')
+            })
+        }
+
+    }
+
     //get the items data from backend  
     componentDidMount(){
-        axios.get('http://localhost:3001/home')
+        const data = {
+            name: this.state.name
+        }
+
+        axios.post('http://localhost:3001/shop', data)
                 .then((response) => {
                 //update the state with the response data
                 this.setState({
-                    items : this.state.items.concat(response.data) 
+                    items : this.state.items.concat(response.data.items) 
+                });
+                this.setState({
+                    shop : response.data.shopID 
                 });
             });
     }
@@ -46,22 +68,17 @@ class Shop extends Component {
         })
         //if not logged in go to login page
         let redirectVar = null;
-        let user = "";
 
         if(!cookie.load('cookie')){
             redirectVar = <Navigate to= "/login"/>
-        } else {
-            user = cookie.load('cookie');
-        }
-
+        } 
 
         return(
             <div>
                 {redirectVar}
                 <div><Navbar/></div>
                 <div class="container">
-                    <h2>{ user }</h2>
-                    <li><Link to="/edit-user">edit</Link></li>
+                    <h2>{ this.state.shop }</h2>
                         <div class="row">
                             { details }
                         </div>                

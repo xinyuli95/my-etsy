@@ -45,7 +45,7 @@ var items = [
   {"itemID" : "3", "Title" : "item 3", "price" : 3.5}
 ]
 
-var shop = [{"shopID": "1", "owner": "owner", "items": ["1"]}]
+var shops = [{"shopID": "1", "owner": "admin", "items": [{"itemID" : "1", "Title" : "item 1", "price" : 1.5}]}]
 
 //Route to get All items when user visits the Home Page
 app.get('/home', function(req,res){
@@ -199,10 +199,7 @@ app.post('/edit-user', function (req, res) {
     if (!req.session.user) {
         res.redirect('/');
     } else {
-        console.log("Users: ", Users);
-        console.log("Req : ", req.body.name);
         Users.map( user => {
-            console.log("name: ", user.username);
             if (req.body.name === user.username){
                 
                 if ("nameNew" in req.body){
@@ -218,6 +215,24 @@ app.post('/edit-user', function (req, res) {
         });
         res.end("name changed")
         
+    }
+})
+
+app.post('/shop', function (req, res) {
+    
+    if (!req.session.user) {
+        res.redirect('/');
+    } else {
+        console.log("Req name: ", req.body.name);
+        const results = shops.filter((shop) => {
+            return shop.owner === req.body.name;    
+        });
+        console.log(results[0]);  
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        });
+
+        res.end(JSON.stringify(results[0]));    
     }
 })
 

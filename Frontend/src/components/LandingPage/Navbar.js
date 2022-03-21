@@ -78,7 +78,7 @@ class Navbar extends Component {
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav">
                             <li class="active"><Link to="/home">Home</Link></li>
-                            <li><Link to="/create">Shop</Link></li>
+                            <li><Link to="/shop">Shop</Link></li>
                             <li><Link to="/user">User</Link></li>
                             <li><Link to="/delete">Cart</Link></li>
                             <li><Link to="/signup">Sign Up</Link></li>

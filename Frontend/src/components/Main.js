@@ -9,6 +9,7 @@ import Navbar from './LandingPage/Navbar';
 import Search from './Search/Search';
 import User from './User/User';
 import UserEdit from './User/UserEdit';
+import Shop from './Shop/Shop';
 
 //Create a Main Component
 class Main extends Component {
@@ -21,7 +22,7 @@ class Main extends Component {
                     <Route path="/login" element={<Login />}/>
                     <Route path="/home" element={<Home />}/>
                     <Route path="/delete" element={<Delete />}/>
-                    <Route path="/create" element={<Create />}/>
+                    <Route path="/shop" element={<Shop />}/>
                     <Route path="/signup" element={<Signup />}/>
                     <Route path="/search/:id" element={<Search />}/>
                     <Route path="/user" element={<User />}/>
