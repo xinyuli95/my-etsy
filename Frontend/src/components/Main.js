@@ -8,6 +8,7 @@ import Create from './Create/Create';
 import Navbar from './LandingPage/Navbar';
 import Search from './Search/Search';
 import User from './User/User';
+import UserEdit from './User/UserEdit';
 
 //Create a Main Component
 class Main extends Component {
@@ -24,6 +25,7 @@ class Main extends Component {
                     <Route path="/signup" element={<Signup />}/>
                     <Route path="/search/:id" element={<Search />}/>
                     <Route path="/user" element={<User />}/>
+                    <Route path="/edit-user" element={<UserEdit />}/>
                 </Routes>
                 
             </div>

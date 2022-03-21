@@ -45,7 +45,7 @@ var items = [
   {"itemID" : "3", "Title" : "item 3", "price" : 3.5}
 ]
 
-
+var shop = [{"shopID": "1", "owner": "owner", "items": ["1"]}]
 
 //Route to get All items when user visits the Home Page
 app.get('/home', function(req,res){
@@ -190,6 +190,33 @@ app.post('/delete', function (req, res) {
             });
             res.end("item not found")
         }
+        
+    }
+})
+
+app.post('/edit-user', function (req, res) {
+    
+    if (!req.session.user) {
+        res.redirect('/');
+    } else {
+        console.log("Users: ", Users);
+        console.log("Req : ", req.body.name);
+        Users.map( user => {
+            console.log("name: ", user.username);
+            if (req.body.name === user.username){
+                
+                if ("nameNew" in req.body){
+                    user.username = req.body.nameNew;
+                    res.cookie('cookie',user.username,{maxAge: 900000, httpOnly: false, path : '/'});
+                }
+            }
+                           
+        });
+          
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        });
+        res.end("name changed")
         
     }
 })

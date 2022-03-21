@@ -6,7 +6,7 @@ import {Navigate} from 'react-router';
 import Navbar from '../LandingPage/Navbar';
 import {Link} from 'react-router-dom';
 
-class User extends Component {
+class Shop extends Component {
     constructor(){
         super();
         this.state = {  
@@ -71,4 +71,4 @@ class User extends Component {
     }
 }
 
-export default User;
+export default Shop;
